@@ -1,4 +1,10 @@
-<?php require_once __DIR__ . '/config.php'; ?>
+<?php
+require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/db_connect.php';
+if (!isset($settings)) {
+    $settings = loadSettings($conn);
+}
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -10,6 +16,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
+
+<!-- Mobile nav backdrop -->
+<div class="nav-backdrop" id="navBackdrop"></div>
 
 <!-- NAVBAR -->
 <nav class="navbar" id="navbar">

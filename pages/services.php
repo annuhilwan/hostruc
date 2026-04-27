@@ -2,6 +2,26 @@
 $pageTitle = 'Product & Services - HOSTRUC';
 $activePage = 'services';
 require_once '../includes/header.php';
+
+// Load services from DB
+$dbServices = [];
+if ($conn) {
+    $res = $conn->query("SELECT * FROM services ORDER BY sort_order, id");
+    if ($res) {
+        while ($row = $res->fetch_assoc()) $dbServices[] = $row;
+    }
+}
+
+// Fallback hardcoded list
+$defaultServices = [
+    ['title' => 'Architectural Design',                                            'summary' => 'Designing buildings that are aesthetic, functional, and in harmony with their surroundings.'],
+    ['title' => 'Structural Design, Structural Engineering Adviser',               'summary' => 'Providing strong, efficient, and sustainability-oriented structural solutions.'],
+    ['title' => 'MEP (Mechanical, Electrical, and Plumbing)',                      'summary' => 'Planning integrated and reliable utility systems for buildings.'],
+    ['title' => 'Project Management',                                              'summary' => 'Comprehensive project oversight with optimal control of quality, cost, and schedule.'],
+    ['title' => 'Value Engineering',                                               'summary' => 'Optimizing design and cost without compromising on quality or building performance.'],
+    ['title' => 'PBG &amp; SLF (Building Approval) Permit Assistance',            'summary' => 'Professional support throughout the entire building permit process.'],
+];
+$serviceList = !empty($dbServices) ? $dbServices : $defaultServices;
 ?>
 
 <!-- =============================================
@@ -46,48 +66,17 @@ require_once '../includes/header.php';
             </p>
 
             <ul class="ps-list">
+                <?php foreach ($serviceList as $svc): ?>
                 <li class="ps-item">
                     <span class="ps-bullet">•</span>
                     <div class="ps-item-text">
-                        <div class="ps-item-name">Architectural Design</div>
-                        <div class="ps-item-desc">Designing buildings that are aesthetic, functional, and in harmony with their surroundings.</div>
+                        <div class="ps-item-name"><?= htmlspecialchars($svc['title']) ?></div>
+                        <?php if (!empty($svc['summary'])): ?>
+                        <div class="ps-item-desc"><?= htmlspecialchars($svc['summary']) ?></div>
+                        <?php endif; ?>
                     </div>
                 </li>
-                <li class="ps-item">
-                    <span class="ps-bullet">•</span>
-                    <div class="ps-item-text">
-                        <div class="ps-item-name">Structural Design, Structural Engineering Adviser,</div>
-                        <div class="ps-item-desc">Providing strong, efficient, and sustainability-oriented structural solutions.</div>
-                    </div>
-                </li>
-                <li class="ps-item">
-                    <span class="ps-bullet">•</span>
-                    <div class="ps-item-text">
-                        <div class="ps-item-name">MEP (Mechanical, Electrical, and Plumbing)</div>
-                        <div class="ps-item-desc">Planning integrated and reliable utility systems for buildings.</div>
-                    </div>
-                </li>
-                <li class="ps-item">
-                    <span class="ps-bullet">•</span>
-                    <div class="ps-item-text">
-                        <div class="ps-item-name">Project Management</div>
-                        <div class="ps-item-desc">Comprehensive project oversight with optimal control of quality, cost, and schedule.</div>
-                    </div>
-                </li>
-                <li class="ps-item">
-                    <span class="ps-bullet">•</span>
-                    <div class="ps-item-text">
-                        <div class="ps-item-name">Value Engineering</div>
-                        <div class="ps-item-desc">Optimizing design and cost without compromising on quality or building performance.</div>
-                    </div>
-                </li>
-                <li class="ps-item">
-                    <span class="ps-bullet">•</span>
-                    <div class="ps-item-text">
-                        <div class="ps-item-name">PBG &amp; SLF (Building Approval) Permit Assistance</div>
-                        <div class="ps-item-desc">Professional support throughout the entire building permit process.</div>
-                    </div>
-                </li>
+                <?php endforeach; ?>
             </ul>
         </div>
     </div>

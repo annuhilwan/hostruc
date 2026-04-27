@@ -1,3 +1,16 @@
+<?php
+$_fn = $settings ?? [];
+$_co_name    = setting($_fn, 'company_name',    'CV. Holistika Strukturindo Konsultant');
+$_co_tagline = setting($_fn, 'company_tagline', 'Holistic Approach to Building Design');
+$_co_email   = setting($_fn, 'company_email',   'hostruc@gmail.com');
+$_co_ig      = setting($_fn, 'instagram',       'https://www.instagram.com/hostruc_consulting');
+$_co_wa      = setting($_fn, 'whatsapp',        '6285846110978');
+$_co_addr    = setting($_fn, 'address',         'Wisma Jaya Jalan Kusuma Utara III Blok 5 Nomor 15, Durenjaya, Bekasi Timur, Kota Bekasi');
+$_co_ph1     = setting($_fn, 'phone_triono',    '0856-9378-5271');
+$_co_ph2     = setting($_fn, 'phone_farhan',    '0858-4611-0978');
+$_co_akta    = setting($_fn, 'akta_no',         'No. 23, 21 August 2025');
+$_co_year    = date('Y');
+?>
 <!-- FOOTER -->
 <footer class="footer">
     <div class="footer-main">
@@ -6,16 +19,16 @@
             <!-- Col 1: Brand -->
             <div class="footer-brand">
                 <img src="<?= BASE ?>/assets/images/logo.jpeg" alt="HOSTRUC Logo" class="footer-brand-logo">
-                <p class="footer-brand-name">CV. HOLISTIKA STRUKTURINDO KONSULTANT</p>
-                <p class="footer-brand-tagline">Holistic Approach to Building Design</p>
+                <p class="footer-brand-name"><?= strtoupper($_co_name) ?></p>
+                <p class="footer-brand-tagline"><?= $_co_tagline ?></p>
                 <div class="footer-socials">
-                    <a href="https://www.instagram.com/hostruc_consulting" target="_blank" class="footer-social-icon" aria-label="Instagram">
+                    <a href="<?= $_co_ig ?>" target="_blank" class="footer-social-icon" aria-label="Instagram">
                         <i class="fab fa-instagram"></i>
                     </a>
-                    <a href="https://wa.me/6285846110978" target="_blank" class="footer-social-icon" aria-label="WhatsApp">
+                    <a href="https://wa.me/<?= $_co_wa ?>" target="_blank" class="footer-social-icon" aria-label="WhatsApp">
                         <i class="fab fa-whatsapp"></i>
                     </a>
-                    <a href="mailto:hostruc@gmail.com" class="footer-social-icon" aria-label="Email">
+                    <a href="mailto:<?= $_co_email ?>" class="footer-social-icon" aria-label="Email">
                         <i class="fa fa-envelope"></i>
                     </a>
                 </div>
@@ -52,15 +65,15 @@
                 <ul class="footer-contact-list">
                     <li>
                         <i class="fa fa-map-marker-alt"></i>
-                        <span>Wisma Jaya Jalan Kusuma Utara III Blok 5 Nomor 15, Durenjaya, Bekasi Timur, Kota Bekasi</span>
+                        <span><?= $_co_addr ?></span>
                     </li>
                     <li>
                         <i class="fa fa-phone"></i>
-                        <span>0856-9378-5271 (Triono)<br>0858-4611-0978 (Farhan)</span>
+                        <span><?= $_co_ph1 ?> (Triono)<br><?= $_co_ph2 ?> (Farhan)</span>
                     </li>
                     <li>
                         <i class="fa fa-envelope"></i>
-                        <a href="mailto:hostruc@gmail.com">hostruc@gmail.com</a>
+                        <a href="mailto:<?= $_co_email ?>"><?= $_co_email ?></a>
                     </li>
                 </ul>
             </div>
@@ -69,7 +82,7 @@
     </div>
 
     <div class="footer-bottom">
-        <p>© 2026 CV. Holistika Strukturindo Konsultant. All Rights Reserved. | Deed of Establishment: No. 23, 21 August 2025</p>
+        <p>© <?= $_co_year ?> <?= $_co_name ?>. All Rights Reserved. | Deed of Establishment: <?= $_co_akta ?></p>
     </div>
 </footer>
 

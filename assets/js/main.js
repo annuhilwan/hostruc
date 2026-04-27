@@ -43,31 +43,35 @@
 // =============================================
 // HAMBURGER MENU TOGGLE
 // =============================================
-const hamburger = document.getElementById('hamburger');
-const navMenu   = document.getElementById('nav-menu');
-const navLinks  = document.querySelectorAll('.nav-link');
+const hamburger   = document.getElementById('hamburger');
+const navMenu     = document.getElementById('nav-menu');
+const navBackdrop = document.getElementById('navBackdrop');
+const navLinks    = document.querySelectorAll('.nav-link');
+
+function openNav() {
+    hamburger.classList.add('active');
+    navMenu.classList.add('active');
+    if (navBackdrop) navBackdrop.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeNav() {
+    hamburger.classList.remove('active');
+    navMenu.classList.remove('active');
+    if (navBackdrop) navBackdrop.classList.remove('active');
+    document.body.style.overflow = '';
+}
 
 if (hamburger && navMenu) {
     hamburger.addEventListener('click', () => {
-        hamburger.classList.toggle('active');
-        navMenu.classList.toggle('active');
+        navMenu.classList.contains('active') ? closeNav() : openNav();
     });
-    
-    // Close menu when clicking on a link
-    navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            hamburger.classList.remove('active');
-            navMenu.classList.remove('active');
-        });
-    });
-    
-    // Close menu when clicking outside
-    document.addEventListener('click', (e) => {
-        if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
-            hamburger.classList.remove('active');
-            navMenu.classList.remove('active');
-        }
-    });
+
+    // Close when a nav link is clicked
+    navLinks.forEach(link => link.addEventListener('click', closeNav));
+
+    // Close when backdrop is clicked
+    if (navBackdrop) navBackdrop.addEventListener('click', closeNav);
 }
 
 // =============================================

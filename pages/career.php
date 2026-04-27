@@ -2,6 +2,15 @@
 $pageTitle = 'Career - HOSTRUC';
 $activePage = 'career';
 require_once '../includes/header.php';
+
+// Load open positions from DB
+$positions = [];
+if ($conn) {
+    $res = $conn->query("SELECT * FROM career_positions WHERE active=1 ORDER BY sort_order, id");
+    if ($res) {
+        while ($row = $res->fetch_assoc()) $positions[] = $row;
+    }
+}
 ?>
 
 <!-- =============================================
@@ -90,15 +99,56 @@ require_once '../includes/header.php';
         <h2 class="career-pos-heading reveal">Open Positions</h2>
         <div class="career-pos-grid reveal">
 
+            <?php if (!empty($positions)): foreach ($positions as $pos):
+                $hasDetails = !empty($pos['job_desc']) || !empty($pos['requirements']);
+                $applySubj  = urlencode('Application - ' . $pos['title']);
+                $applyEmail = setting($settings, 'company_email', 'hostruc@gmail.com');
+                $jobLines   = $pos['job_desc']      ? array_filter(array_map('trim', preg_split('/\r?\n/', $pos['job_desc']))) : [];
+                $reqLines   = $pos['requirements']  ? array_filter(array_map('trim', preg_split('/\r?\n/', $pos['requirements']))) : [];
+            ?>
+            <div class="career-pos-card<?= $hasDetails ? ' career-pos-card--full' : '' ?>">
+                <div class="career-pos-top">
+                    <h3 class="career-pos-title"><?= htmlspecialchars($pos['title']) ?></h3>
+                    <?php if (!empty($pos['location'])): ?>
+                    <span class="career-pos-location"><i class="fas fa-map-marker-alt"></i> <?= htmlspecialchars($pos['location']) ?></span>
+                    <?php endif; ?>
+                </div>
+                <?php if (!empty($pos['description']) && !$hasDetails): ?>
+                <p class="career-pos-desc"><?= htmlspecialchars($pos['description']) ?></p>
+                <?php endif; ?>
+                <?php if ($hasDetails): ?>
+                <div class="career-pos-details">
+                    <?php if (!empty($jobLines)): ?>
+                    <p class="career-detail-label">Job Descriptions:</p>
+                    <ol class="career-detail-list">
+                        <?php foreach ($jobLines as $line): ?>
+                        <li><?= htmlspecialchars(preg_replace('/^\d+\.\s*/', '', $line)) ?></li>
+                        <?php endforeach; ?>
+                    </ol>
+                    <?php endif; ?>
+                    <?php if (!empty($reqLines)): ?>
+                    <p class="career-detail-label">Requirements:</p>
+                    <ol class="career-detail-list">
+                        <?php foreach ($reqLines as $line): ?>
+                        <li><?= htmlspecialchars(preg_replace('/^\d+\.\s*/', '', $line)) ?></li>
+                        <?php endforeach; ?>
+                    </ol>
+                    <?php endif; ?>
+                </div>
+                <?php endif; ?>
+                <a href="mailto:<?= htmlspecialchars($applyEmail) ?>?subject=<?= $applySubj ?>" class="career-apply-btn">Apply Now</a>
+            </div>
+            <?php endforeach; else: ?>
+
+            <!-- Fallback if DB is empty -->
             <div class="career-pos-card">
                 <div class="career-pos-top">
                     <h3 class="career-pos-title">Arsitek Senior</h3>
                     <span class="career-pos-location"><i class="fas fa-map-marker-alt"></i> Jakarta</span>
                 </div>
                 <p class="career-pos-desc">We are looking for an experienced senior architect with a minimum of 8 years in commercial and residential building design.</p>
-                <a href="mailto:hostruc@gmail.com?subject=Application%20-%20Senior%20Architect" class="career-apply-btn">Apply Now</a>
+                <a href="mailto:hostruc@gmail.com?subject=Application%20-%20Arsitek%20Senior" class="career-apply-btn">Apply Now</a>
             </div>
-
             <div class="career-pos-card">
                 <div class="career-pos-top">
                     <h3 class="career-pos-title">Structural Engineer</h3>
@@ -107,16 +157,6 @@ require_once '../includes/header.php';
                 <p class="career-pos-desc">Experienced structural engineer for design and structural calculations across various building types.</p>
                 <a href="mailto:hostruc@gmail.com?subject=Application%20-%20Structural%20Engineer" class="career-apply-btn">Apply Now</a>
             </div>
-
-            <div class="career-pos-card">
-                <div class="career-pos-top">
-                    <h3 class="career-pos-title">Project Manager</h3>
-                    <span class="career-pos-location"><i class="fas fa-map-marker-alt"></i> Jakarta</span>
-                </div>
-                <p class="career-pos-desc">Experienced PM to oversee large-scale construction projects from planning through to handover.</p>
-                <a href="mailto:hostruc@gmail.com?subject=Application%20-%20Project%20Manager" class="career-apply-btn">Apply Now</a>
-            </div>
-
             <div class="career-pos-card">
                 <div class="career-pos-top">
                     <h3 class="career-pos-title">Junior Architect</h3>
@@ -126,23 +166,7 @@ require_once '../includes/header.php';
                 <a href="mailto:hostruc@gmail.com?subject=Application%20-%20Junior%20Architect" class="career-apply-btn">Apply Now</a>
             </div>
 
-            <div class="career-pos-card">
-                <div class="career-pos-top">
-                    <h3 class="career-pos-title">BIM Specialist</h3>
-                    <span class="career-pos-location"><i class="fas fa-map-marker-alt"></i> Jakarta</span>
-                </div>
-                <p class="career-pos-desc">BIM specialist for model coordination and project data management using Revit and other modeling software.</p>
-                <a href="mailto:hostruc@gmail.com?subject=Application%20-%20BIM%20Specialist" class="career-apply-btn">Apply Now</a>
-            </div>
-
-            <div class="career-pos-card">
-                <div class="career-pos-top">
-                    <h3 class="career-pos-title">Landscape Architect</h3>
-                    <span class="career-pos-location"><i class="fas fa-map-marker-alt"></i> Jakarta / Bandung</span>
-                </div>
-                <p class="career-pos-desc">Landscape architect for the design of sustainable and aesthetic gardens, landscapes, and public areas.</p>
-                <a href="mailto:hostruc@gmail.com?subject=Application%20-%20Landscape%20Architect" class="career-apply-btn">Apply Now</a>
-            </div>
+            <?php endif; ?>
 
         </div>
     </div>
@@ -167,7 +191,8 @@ require_once '../includes/header.php';
             </div>
             <div class="career-proc-contact">
                 <p class="career-proc-send">Send your application to:</p>
-                <a href="mailto:hostruc@gmail.com" class="career-proc-email">hostruc@gmail.com</a>
+                <?php $careerEmail = setting($settings, 'company_email', 'hostruc@gmail.com'); ?>
+                <a href="mailto:<?= $careerEmail ?>" class="career-proc-email"><?= $careerEmail ?></a>
                 <p class="career-proc-subject">Subject format: <strong>[Position Applied For] – Your Name</strong></p>
             </div>
         </div>

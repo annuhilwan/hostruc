@@ -5,61 +5,43 @@ require_once '../includes/header.php';
 ?>
 
 <!-- =============================================
+     HERO
+     ============================================= -->
+<section class="hero">
+    <div class="hero-text-block">
+        <h1 class="hero-title">About<br>Us</h1>
+    </div>
+    <div class="hero-image-wrap">
+        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=80"
+             alt="HOSTRUC Team" loading="eager">
+    </div>
+</section>
+
+<!-- =============================================
      ABOUT US SECTION
      ============================================= -->
 <section class="au-section">
-    <!-- decorative corners -->
-    <div class="au-deco au-deco--tl"></div>
-    <div class="au-deco au-deco--tr">
-        <svg width="110" height="110" viewBox="0 0 110 110" fill="none">
-            <polygon points="0,0 110,0 110,110" fill="#e07b2a" opacity="0.85"/>
-            <polygon points="30,0 110,0 110,80" fill="#1a2f4a" opacity="0.85"/>
-            <polygon points="60,0 110,0 110,50" fill="#0097a7" opacity="0.85"/>
-        </svg>
-    </div>
-    <div class="au-deco au-deco--bl">
-        <svg width="90" height="90" viewBox="0 0 90 90" fill="none">
-            <polygon points="0,90 90,90 0,0" fill="#0097a7" opacity="0.75"/>
-            <polygon points="0,90 60,90 0,30" fill="#1a2f4a" opacity="0.6"/>
-        </svg>
-    </div>
-
     <div class="au-inner">
         <div class="au-label-col">
             <h2 class="au-label">ABOUT US</h2>
         </div>
         <div class="au-text-col reveal-right">
+            <?php
+            $aboutIntro = settingRaw($settings, 'about_intro', '');
+            if ($aboutIntro):
+            ?>
+            <p class="au-paragraph"><?= nl2br(htmlspecialchars($aboutIntro)) ?></p>
+            <?php else: ?>
             <p class="au-paragraph">
                 <strong class="au-company-name">Holistika Strukturindo Konsultan</strong> is a consultancy firm specializing in building design and construction services with a comprehensive, solution-oriented approach. We believe that every structure should not only be strong and safe, but also an integral part of its surroundings, functionality, and the long-term vision of both its owners and users.
             </p>
             <p class="au-paragraph">
                 Backed by a team of skilled and experienced professionals, we combine technical expertise with a deep understanding of our clients' needs and project context. We're not just designing buildings—we're creating value through efficient, sustainable, and forward-thinking structures. Our commitment is to deliver consultancy services that are not only technical, but also strategic—turning every project into a work that blends strength, aesthetics, and purposeful design.
             </p>
+            <?php endif; ?>
         </div>
     </div>
 </section>
-
-<!-- =============================================
-     PILLARS STRIP
-     ============================================= -->
-<div class="au-pillars-strip">
-    <div class="au-pillars-inner">
-        <div class="au-pillar">
-            <span class="au-pillar-icon"><i class="fas fa-bolt"></i></span>
-            <span class="au-pillar-word">Efficient</span>
-        </div>
-        <div class="au-pillar-divider"></div>
-        <div class="au-pillar">
-            <span class="au-pillar-icon"><i class="fas fa-leaf"></i></span>
-            <span class="au-pillar-word">Sustainable</span>
-        </div>
-        <div class="au-pillar-divider"></div>
-        <div class="au-pillar">
-            <span class="au-pillar-icon"><i class="fas fa-lightbulb"></i></span>
-            <span class="au-pillar-word">Future&#8209;Thinking</span>
-        </div>
-    </div>
-</div>
 
 <!-- =============================================
      VISION & MISSION
@@ -80,13 +62,13 @@ require_once '../includes/header.php';
             <div class="vm-block">
                 <h3 class="vm-heading"><span class="vm-heading-accent vm-accent-teal">VISION</span> <span class="vm-heading-label">HOSTRUC</span></h3>
                 <p class="vm-text">
-                    To become the leading design consultant known for our holistic approach, high-quality work, and integrity — inspiring trust and driving increased investment value in every project we handle.
+                    <?= nl2br(setting($settings, 'vision', 'To become the leading design consultant known for our holistic approach, high-quality work, and integrity — inspiring trust and driving increased investment value in every project we handle.')) ?>
                 </p>
             </div>
             <div class="vm-block">
                 <h3 class="vm-heading"><span class="vm-heading-accent vm-accent-orange">MISION</span> <span class="vm-heading-label">HOSTRUC</span></h3>
                 <p class="vm-text">
-                    <u>Hostruc</u> is committed to delivering design services that go beyond just solving technical, aesthetic, economic, environmental, and sustainability challenges — we aim to enhance the business appeal of our clients as well. Through a systematic and high-standard workflow, we position ourselves as a strategic partner for entrepreneurs, helping them develop properties that are not only functional, but also attractive to investors.
+                    <?= nl2br(setting($settings, 'mission', 'Hostruc is committed to delivering design services that go beyond just solving technical, aesthetic, economic, environmental, and sustainability challenges — we aim to enhance the business appeal of our clients as well.')) ?>
                 </p>
             </div>
         </div>
@@ -156,6 +138,30 @@ require_once '../includes/header.php';
         </div>
     </div>
 </section>
+
+<!-- =============================================
+     PILLARS STRIP
+     ============================================= -->
+<div class="au-pillars-wrap">
+    <div class="au-pillars-strip">
+        <div class="au-pillars-inner">
+            <div class="au-pillar">
+                <span class="au-pillar-icon"><i class="fas fa-bolt"></i></span>
+                <span class="au-pillar-word">Efficient</span>
+            </div>
+            <div class="au-pillar-divider"></div>
+            <div class="au-pillar">
+                <span class="au-pillar-icon"><i class="fas fa-leaf"></i></span>
+                <span class="au-pillar-word">Sustainable</span>
+            </div>
+            <div class="au-pillar-divider"></div>
+            <div class="au-pillar">
+                <span class="au-pillar-icon"><i class="fas fa-lightbulb"></i></span>
+                <span class="au-pillar-word">Future&#8209;Thinking</span>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- =============================================
      LEGAL DOCUMENTS

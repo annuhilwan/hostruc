@@ -2,6 +2,31 @@
 $pageTitle = 'HOSTRUC - Holistic Approach to Building Design';
 $activePage = 'home';
 require_once 'includes/header.php';
+
+// Services for offer slider
+$offerServices = [];
+if ($conn) {
+    $res = $conn->query("SELECT * FROM services ORDER BY sort_order, id");
+    if ($res) while ($row = $res->fetch_assoc()) $offerServices[] = $row;
+}
+
+// Hero slides from DB, fall back to local images
+$heroSlides = [];
+if ($conn) {
+    $res = $conn->query("SELECT * FROM hero_slides WHERE active=1 ORDER BY sort_order");
+    if ($res) {
+        while ($row = $res->fetch_assoc()) {
+            $heroSlides[] = ['src' => $row['image_url'], 'alt' => $row['title'] ?? 'HOSTRUC'];
+        }
+    }
+}
+if (empty($heroSlides)) {
+    foreach ([['hero.png','HOSTRUC Building'],['career.png','HOSTRUC Team']] as [$f,$a]) {
+        if (file_exists(__DIR__ . '/assets/images/' . $f)) {
+            $heroSlides[] = ['src' => BASE . '/assets/images/' . $f, 'alt' => $a];
+        }
+    }
+}
 ?>
 
 <!-- =============================================
@@ -10,21 +35,13 @@ require_once 'includes/header.php';
 <section class="hero">
     <!-- Title above image -->
     <div class="hero-text-block">
-        <h1 class="hero-title">Building Value Through<br>Holistic Vision</h1>
+        <h1 class="hero-title"><?= settingRaw($settings, 'hero_title', 'Building Value Through<br>Holistic Vision') ?></h1>
     </div>
 
     <!-- Hero Image Slider -->
     <div class="hero-image-wrap">
         <div class="hero-slider" id="heroSlider">
-            <?php
-            $heroSlides = [
-                ['src' => BASE . '/assets/images/hero.png',   'alt' => 'HOSTRUC Building'],
-                ['src' => BASE . '/assets/images/career.png', 'alt' => 'HOSTRUC Team'],
-            ];
-            // Only include slides where the file exists
-            $heroSlides = array_values(array_filter($heroSlides, fn($s) => file_exists(__DIR__ . '/assets/images/' . basename($s['src']))));
-            foreach ($heroSlides as $i => $slide):
-            ?>
+            <?php foreach ($heroSlides as $i => $slide): ?>
             <div class="hero-slide<?= $i === 0 ? ' active' : '' ?>">
                 <img src="<?= htmlspecialchars($slide['src']) ?>"
                      alt="<?= htmlspecialchars($slide['alt']) ?>"
@@ -341,6 +358,25 @@ require_once 'includes/header.php';
         <!-- Track -->
         <div class="offer-track" id="offerTrack">
 
+            <?php foreach ($offerServices as $svc): ?>
+            <div class="offer-card">
+                <div class="offer-card-img">
+                    <?php if (!empty($svc['image'])): ?>
+                        <img src="<?= htmlspecialchars($svc['image']) ?>"
+                             alt="<?= htmlspecialchars($svc['title']) ?>"
+                             loading="lazy">
+                    <?php else: ?>
+                        <div class="offer-card-placeholder">
+                            <i class="fas <?= htmlspecialchars($svc['icon'] ?? 'fa-drafting-compass') ?>"></i>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <div class="offer-card-label"><?= htmlspecialchars($svc['title']) ?></div>
+            </div>
+            <?php endforeach; ?>
+
+            <?php if (empty($offerServices)): ?>
+            <!-- Fallback cards if DB is empty -->
             <!-- Card 1: Construction -->
             <div class="offer-card">
                 <div class="offer-card-img offer-card-img--1">
@@ -661,6 +697,7 @@ require_once 'includes/header.php';
                 </div>
                 <div class="offer-card-label">Project Management &amp; Supervision</div>
             </div>
+            <?php endif; // end empty($offerServices) fallback ?>
 
         </div><!-- /.offer-track -->
 
@@ -672,12 +709,15 @@ require_once 'includes/header.php';
         </button>
     </div><!-- /.offer-slider-wrap -->
 
-    <!-- Dots -->
+    <!-- Dots (1 per scroll position at desktop: total - 2 for 3-visible) -->
+    <?php
+    $offerCount = !empty($offerServices) ? count($offerServices) : 6;
+    $offerDots  = max(1, $offerCount - 2);
+    ?>
     <div class="offer-dots" id="offerDots">
-        <button class="offer-dot active" data-index="0"></button>
-        <button class="offer-dot" data-index="1"></button>
-        <button class="offer-dot" data-index="2"></button>
-        <button class="offer-dot" data-index="3"></button>
+        <?php for ($d = 0; $d < $offerDots; $d++): ?>
+        <button class="offer-dot <?= $d === 0 ? 'active' : '' ?>" data-index="<?= $d ?>"></button>
+        <?php endfor; ?>
     </div>
 
 </section>
@@ -701,19 +741,19 @@ require_once 'includes/header.php';
                     <div class="contact-us-icon contact-icon-pin">
                         <i class="fas fa-map-marker-alt"></i>
                     </div>
-                    <p class="contact-us-text">Wisma Jaya Jalan Kusuma Utara III Blok 5 Nomor 15, Desa/Kelurahan Durenjaya, Kec. Bekasi Timur, Kota Bekasi</p>
+                    <p class="contact-us-text"><?= setting($settings, 'address', 'Wisma Jaya Jalan Kusuma Utara III Blok 5 Nomor 15, Durenjaya, Bekasi Timur, Kota Bekasi') ?></p>
                 </div>
                 <div class="contact-us-item">
                     <div class="contact-us-icon contact-icon-email">
                         <i class="fas fa-envelope"></i>
                     </div>
-                    <p class="contact-us-text">email : hostruc@gmail.com</p>
+                    <p class="contact-us-text">email : <?= setting($settings, 'company_email', 'hostruc@gmail.com') ?></p>
                 </div>
                 <div class="contact-us-item">
                     <div class="contact-us-icon contact-icon-phone">
                         <i class="fas fa-phone-alt"></i>
                     </div>
-                    <p class="contact-us-text">Phone :<br>0856-9378-5271 (Triono)<br>0858-4611-0978 (Farhan)</p>
+                    <p class="contact-us-text">Phone :<br><?= setting($settings, 'phone_triono', '0856-9378-5271') ?> (Triono)<br><?= setting($settings, 'phone_farhan', '0858-4611-0978') ?> (Farhan)</p>
                 </div>
             </div>
         </div>
