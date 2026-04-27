@@ -1,35 +1,75 @@
 <!-- FOOTER -->
 <footer class="footer">
     <div class="footer-main">
-        <div class="footer-container">
-            <div class="footer-logo">
-                <img src="<?= BASE ?>/assets/images/footerlogo.png" alt="HOSTRUC Logo" class="footer-logo-img">
+        <div class="footer-grid">
+
+            <!-- Col 1: Brand -->
+            <div class="footer-brand">
+                <img src="<?= BASE ?>/assets/images/logo.jpeg" alt="HOSTRUC Logo" class="footer-brand-logo">
+                <p class="footer-brand-name">CV. HOLISTIKA STRUKTURINDO KONSULTANT</p>
+                <p class="footer-brand-tagline">Holistic Approach to Building Design</p>
+                <div class="footer-socials">
+                    <a href="https://www.instagram.com/hostruc_consulting" target="_blank" class="footer-social-icon" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://wa.me/6285846110978" target="_blank" class="footer-social-icon" aria-label="WhatsApp">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                    <a href="mailto:hostruc@gmail.com" class="footer-social-icon" aria-label="Email">
+                        <i class="fa fa-envelope"></i>
+                    </a>
+                </div>
             </div>
 
-            <div class="footer-contacts">
-                <a href="mailto:hostruc@gmail.com" class="footer-contact-item">
-                    <i class="fa fa-envelope"></i>
-                    <span>hostruc@gmail.com</span>
-                </a>
-                <a href="https://wa.me/6285846110978" class="footer-contact-item" target="_blank">
-                    <i class="fab fa-whatsapp"></i>
-                    <span>0858-4611-0978</span>
-                </a>
-                <a href="https://www.holistika.co.id" class="footer-contact-item" target="_blank">
-                    <i class="fa fa-globe"></i>
-                    <span>www.hostruc.com</span>
-                </a>
+            <!-- Col 2: Quick Links -->
+            <div class="footer-col">
+                <h4 class="footer-col-title">Quick Links</h4>
+                <ul class="footer-col-list">
+                    <li><a href="<?= BASE ?>/index.php">Home</a></li>
+                    <li><a href="<?= BASE ?>/pages/about.php">About Us</a></li>
+                    <li><a href="<?= BASE ?>/pages/services.php">Services</a></li>
+                    <li><a href="<?= BASE ?>/pages/projects.php">Projects</a></li>
+                    <li><a href="<?= BASE ?>/pages/career.php">Career</a></li>
+                    <li><a href="<?= BASE ?>/pages/contact.php">Contact</a></li>
+                </ul>
             </div>
 
-            <div class="footer-star">
-                <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                    <path d="M24 2 L26.5 21.5 L46 24 L26.5 26.5 L24 46 L21.5 26.5 L2 24 L21.5 21.5 Z" fill="#9ea8b8" opacity="0.75"/>
-                </svg>
+            <!-- Col 3: Our Services -->
+            <div class="footer-col">
+                <h4 class="footer-col-title">Our Services</h4>
+                <ul class="footer-col-list">
+                    <li><a href="<?= BASE ?>/pages/services.php">Architectural Design</a></li>
+                    <li><a href="<?= BASE ?>/pages/services.php">Structural Design</a></li>
+                    <li><a href="<?= BASE ?>/pages/services.php">MEP</a></li>
+                    <li><a href="<?= BASE ?>/pages/services.php">Project Management</a></li>
+                    <li><a href="<?= BASE ?>/pages/services.php">Value Engineering</a></li>
+                </ul>
             </div>
+
+            <!-- Col 4: Contact -->
+            <div class="footer-col">
+                <h4 class="footer-col-title">Contact</h4>
+                <ul class="footer-contact-list">
+                    <li>
+                        <i class="fa fa-map-marker-alt"></i>
+                        <span>Wisma Jaya Jalan Kusuma Utara III Blok 5 Nomor 15, Durenjaya, Bekasi Timur, Kota Bekasi</span>
+                    </li>
+                    <li>
+                        <i class="fa fa-phone"></i>
+                        <span>0856-9378-5271 (Triono)<br>0858-4611-0978 (Farhan)</span>
+                    </li>
+                    <li>
+                        <i class="fa fa-envelope"></i>
+                        <a href="mailto:hostruc@gmail.com">hostruc@gmail.com</a>
+                    </li>
+                </ul>
+            </div>
+
         </div>
     </div>
+
     <div class="footer-bottom">
-        <p><strong>Company Moto:</strong> Holistic Approach to Building Design</p>
+        <p>© 2026 CV. Holistika Strukturindo Konsultant. All Rights Reserved. | Deed of Establishment: No. 23, 21 August 2025</p>
     </div>
 </footer>
 

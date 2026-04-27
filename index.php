@@ -687,9 +687,7 @@ require_once 'includes/header.php';
      ============================================= -->
 <section class="contact-us-section reveal">
     <div class="contact-us-inner">
-        <div class="contact-us-deco">
-            <img src="<?= BASE ?>/assets/images/logo.jpeg" alt="" class="contact-us-deco-img">
-        </div>
+
         <h2 class="contact-us-heading"><span class="contact-heading-dark">CONTACT</span> <span class="contact-heading-teal">US</span></h2>
         <div class="contact-us-body">
             <div class="contact-us-map">
